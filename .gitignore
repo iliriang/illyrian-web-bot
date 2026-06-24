@@ -9,8 +9,6 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
-.CLAUDE.md
-.AGENTS.md
 
 # testing
 /coverage
@@ -18,7 +16,6 @@
 # next.js
 /.next/
 /out/
-CLAUDE.md
 
 # production
 /build
@@ -41,6 +38,8 @@ yarn-error.log*
 
 # claude
 .claude
+CLAUDE.md
+AGENTS.md
 
 # typescript
 *.tsbuildinfo
