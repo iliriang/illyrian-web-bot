@@ -12,25 +12,6 @@ Built with **Next.js 16**, **Tailwind CSS 4**, and **Framer Motion**.
 - SEO metadata, Open Graph, and Twitter cards
 - Windows installer served directly from the site for download
 
-## Getting Started
-
-Install dependencies and start the dev server:
-
-```bash
-npm install
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) to view the site.
-
-## Scripts
-
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start the development server |
-| `npm run build` | Create an optimized production build |
-| `npm run start` | Serve the production build |
-| `npm run lint` | Run ESLint |
 
 ## Project Structure
 
