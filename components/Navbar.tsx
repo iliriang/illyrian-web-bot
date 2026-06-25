@@ -4,12 +4,18 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { WindowsIcon } from "./ui";
 
+const CONTACT_EMAIL = "iliriang@yahoo.com";
+const CONTACT_HREF = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+  "Inquiry — Illyrian Minting Bot",
+)}`;
+
 const links = [
   { href: "#features", label: "Features" },
   { href: "#how-it-works", label: "How It Works" },
   { href: "#dashboards", label: "Dashboards" },
   { href: "#pricing", label: "Pricing" },
   { href: "#faq", label: "FAQ" },
+  { href: CONTACT_HREF, label: "Contact" },
 ];
 
 export default function Navbar() {

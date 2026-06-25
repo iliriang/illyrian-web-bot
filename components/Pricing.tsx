@@ -2,6 +2,13 @@
 
 import { CheckIcon, FadeIn, SectionHeading } from "./ui";
 
+const CONTACT_EMAIL = "iliriang@yahoo.com";
+
+const mailto = (subject: string, body: string) =>
+  `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+    subject,
+  )}&body=${encodeURIComponent(body)}`;
+
 const plans = [
   {
     name: "Starter",
@@ -9,6 +16,7 @@ const plans = [
     period: "to try",
     description: "Test the full workflow with a limited wallet set.",
     cta: "Download Free",
+    href: "#download",
     highlighted: false,
     features: [
       "Up to 10 wallets",
@@ -24,6 +32,10 @@ const plans = [
     period: "/ month",
     description: "Full automation power for serious minters.",
     cta: "Get Professional",
+    href: mailto(
+      "Professional Plan — Illyrian Minting Bot",
+      "Hi,\n\nI'm interested in the Professional plan ($99/month). Please send me the next steps.\n\nThanks!",
+    ),
     highlighted: true,
     features: [
       "Up to 500 wallets",
@@ -40,6 +52,10 @@ const plans = [
     period: "pricing",
     description: "Unlimited scale for teams and funds.",
     cta: "Contact Sales",
+    href: mailto(
+      "Enterprise Plan — Illyrian Minting Bot",
+      "Hi,\n\nI'd like to discuss an Enterprise plan for my team. Here are a few details about our needs:\n\n",
+    ),
     highlighted: false,
     features: [
       "Unlimited wallets",
@@ -95,7 +111,7 @@ export default function Pricing() {
                   ))}
                 </ul>
                 <a
-                  href="#download"
+                  href={plan.href}
                   className={`mt-8 block rounded-xl px-5 py-3 text-center text-sm font-semibold transition-all ${
                     plan.highlighted
                       ? "bg-eth text-white shadow-lg shadow-eth/30 hover:bg-eth-light"
