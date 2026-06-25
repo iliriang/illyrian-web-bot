@@ -1,6 +1,5 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { FadeIn, SectionHeading } from "./ui";
 
@@ -52,31 +51,28 @@ export default function Faq() {
                     <span className="text-sm font-semibold text-white sm:text-base">
                       {faq.question}
                     </span>
-                    <motion.span
-                      animate={{ rotate: isOpen ? 45 : 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-eth/15 text-eth-light"
+                    <span
+                      className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-eth/15 text-eth-light transition-transform duration-200 ${
+                        isOpen ? "rotate-45" : ""
+                      }`}
                     >
                       <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4">
                         <path d="M10 4a1 1 0 0 1 1 1v4h4a1 1 0 1 1 0 2h-4v4a1 1 0 1 1-2 0v-4H5a1 1 0 1 1 0-2h4V5a1 1 0 0 1 1-1z" />
                       </svg>
-                    </motion.span>
+                    </span>
                   </button>
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.25 }}
-                        className="overflow-hidden"
-                      >
-                        <p className="px-6 pb-5 text-sm leading-relaxed text-slate-400">
-                          {faq.answer}
-                        </p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  {/* CSS grid-rows transition — no JS animation dependency */}
+                  <div
+                    className={`grid overflow-hidden transition-all duration-300 ease-out ${
+                      isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                    }`}
+                  >
+                    <div className="min-h-0 overflow-hidden">
+                      <p className="px-6 pb-5 text-sm leading-relaxed text-slate-400">
+                        {faq.answer}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </FadeIn>
             );

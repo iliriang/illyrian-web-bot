@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 
 export function FadeIn({
   children,
@@ -15,15 +14,17 @@ export function FadeIn({
   y?: number;
 }) {
   return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.6, delay, ease: [0.21, 0.47, 0.32, 0.98] }}
+    <div
+      className={`reveal ${className ?? ""}`}
+      style={
+        {
+          "--reveal-delay": `${delay}s`,
+          "--reveal-y": `${y}px`,
+        } as CSSProperties
+      }
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
 
@@ -63,24 +64,30 @@ export function CountUp({
   prefix?: string;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-  const motionValue = useMotionValue(0);
-  const spring = useSpring(motionValue, { duration: 1800, bounce: 0 });
 
   useEffect(() => {
-    if (inView) motionValue.set(value);
-  }, [inView, value, motionValue]);
+    const el = ref.current;
+    if (!el) return;
+    // Respect reduced motion: show the final value immediately.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.textContent = `${prefix}${value.toLocaleString()}${suffix}`;
+      return;
+    }
+    let raf = 0;
+    const duration = 1600;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = `${prefix}${Math.round(eased * value).toLocaleString()}${suffix}`;
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [value, prefix, suffix]);
 
-  useEffect(() => {
-    const unsubscribe = spring.on("change", (latest) => {
-      if (ref.current) {
-        ref.current.textContent = `${prefix}${Math.round(latest).toLocaleString()}${suffix}`;
-      }
-    });
-    return unsubscribe;
-  }, [spring, prefix, suffix]);
-
-  return <span ref={ref}>{`${prefix}0${suffix}`}</span>;
+  // Render the final value so SSR / no-JS still shows the real number.
+  return <span ref={ref}>{`${prefix}${value.toLocaleString()}${suffix}`}</span>;
 }
 
 export const EthIcon = ({ className = "h-5 w-5" }: { className?: string }) => (

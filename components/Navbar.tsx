@@ -1,6 +1,5 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { WindowsIcon } from "./ui";
@@ -25,10 +24,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <motion.header
-      initial={{ y: -64, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+    <header
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
         scrolled ? "glass-strong" : "bg-transparent"
       }`}
@@ -72,6 +68,7 @@ export default function Navbar() {
 
         <button
           aria-label="Toggle menu"
+          aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
           className="flex h-10 w-10 items-center justify-center rounded-lg text-slate-300 hover:text-white lg:hidden"
         >
@@ -85,38 +82,35 @@ export default function Navbar() {
         </button>
       </nav>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="glass-strong overflow-hidden lg:hidden"
-          >
-            <div className="space-y-1 px-4 py-4">
-              {links.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  className="block rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 hover:bg-white/5 hover:text-white"
-                >
-                  {link.label}
-                </a>
-              ))}
+      {/* Mobile menu — CSS grid-rows transition, no JS animation dependency */}
+      <div
+        className={`grid overflow-hidden transition-all duration-300 ease-out lg:hidden ${
+          open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+        }`}
+      >
+        <div className="min-h-0 overflow-hidden">
+          <div className="glass-strong space-y-1 px-4 py-4">
+            {links.map((link) => (
               <a
-                href="#download"
+                key={link.href}
+                href={link.href}
                 onClick={() => setOpen(false)}
-                className="mt-2 flex items-center justify-center gap-2 rounded-xl bg-eth px-5 py-3 text-sm font-semibold text-white"
+                className="block rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 hover:bg-white/5 hover:text-white"
               >
-                <WindowsIcon className="h-4 w-4" />
-                Download for Windows
+                {link.label}
               </a>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.header>
+            ))}
+            <a
+              href="#download"
+              onClick={() => setOpen(false)}
+              className="mt-2 flex items-center justify-center gap-2 rounded-xl bg-eth px-5 py-3 text-sm font-semibold text-white"
+            >
+              <WindowsIcon className="h-4 w-4" />
+              Download for Windows
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
   );
 }

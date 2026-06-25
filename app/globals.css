@@ -97,6 +97,29 @@ body {
   border-radius: 4px;
 }
 
+/* ---- CSS entrance reveals (no JS dependency) ----
+   Pure-CSS so content is GUARANTEED to become visible even if JS/hydration
+   fails. animation-fill-mode: both holds the start frame during the delay and
+   the end frame after, so elements always finish fully visible. ---- */
+/* Transform-only reveal — opacity stays 1 at all times. This is deliberate:
+   content must NEVER be invisible. A paused/failed/unsupported animation (e.g.
+   a backgrounded tab pinning the start frame, or JS disabled) leaves the element
+   merely shifted a few px or at rest — always visible, never blank. */
+@keyframes revealUp {
+  from {
+    transform: translateY(var(--reveal-y, 20px));
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  animation: revealUp 0.6s cubic-bezier(0.21, 0.47, 0.32, 0.98) both;
+  animation-delay: var(--reveal-delay, 0s);
+  will-change: transform;
+}
+
 /* ---- Mobile performance: heavy blurs + backdrop-filters are expensive on
    mobile GPUs and cause flickering/jank. Lighten them on small screens. ---- */
 @media (max-width: 768px) {
@@ -125,5 +148,11 @@ body {
   .animate-pulse-slow,
   .animate-marquee {
     animation: none;
+  }
+  /* Reveals must end visible, not stuck on the first frame */
+  .reveal {
+    animation: none;
+    opacity: 1;
+    transform: none;
   }
 }

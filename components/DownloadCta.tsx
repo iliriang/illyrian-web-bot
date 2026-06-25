@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Image from "next/image";
 import { FadeIn, WindowsIcon } from "./ui";
 
@@ -28,16 +25,14 @@ export default function DownloadCta() {
                 Download Illyrian Minting Bot and automate your NFT workflow.
               </p>
 
-              <motion.a
+              <a
                 href="/IllyrianMintBot-Setup.exe"
                 download
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.98 }}
-                className="mt-10 inline-flex items-center gap-3 rounded-2xl bg-eth px-10 py-5 text-lg font-bold text-white shadow-2xl shadow-eth/40 transition-colors hover:bg-eth-light"
+                className="mt-10 inline-flex items-center gap-3 rounded-2xl bg-eth px-10 py-5 text-lg font-bold text-white shadow-2xl shadow-eth/40 transition-all hover:bg-eth-light hover:scale-[1.03] active:scale-[0.98]"
               >
                 <WindowsIcon className="h-6 w-6" />
                 Download for Windows
-              </motion.a>
+              </a>
 
               <p className="mt-5 text-xs text-slate-500">
                 IllyrianMintBot-Setup.exe · ~55 MB · Windows 10 / 11 (64-bit)

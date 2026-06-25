@@ -1,7 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import { FadeIn, SectionHeading } from "./ui";
 
 const tabs = [
@@ -309,18 +308,11 @@ export default function Dashboards() {
                 onClick={() => setActive(tab)}
                 className={`relative rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${
                   active === tab
-                    ? "text-white"
+                    ? "bg-eth text-white shadow-lg shadow-eth/30"
                     : "text-slate-400 hover:text-slate-200"
                 }`}
               >
-                {active === tab && (
-                  <motion.span
-                    layoutId="dashboard-tab"
-                    className="absolute inset-0 rounded-xl bg-eth shadow-lg shadow-eth/30"
-                    transition={{ type: "spring", duration: 0.5, bounce: 0.2 }}
-                  />
-                )}
-                <span className="relative">{tab}</span>
+                {tab}
               </button>
             ))}
           </div>
@@ -328,17 +320,10 @@ export default function Dashboards() {
 
         <div className="relative mt-8">
           <div className="absolute -inset-4 -z-10 rounded-3xl bg-eth/5 blur-2xl" />
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={active}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Panel />
-            </motion.div>
-          </AnimatePresence>
+          {/* key forces a re-mount so the CSS reveal replays on tab change */}
+          <div key={active} className="reveal" style={{ "--reveal-y": "16px" } as CSSProperties}>
+            <Panel />
+          </div>
         </div>
       </div>
     </section>
