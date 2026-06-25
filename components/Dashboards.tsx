@@ -292,7 +292,7 @@ export default function Dashboards() {
   const Panel = panels[active];
 
   return (
-    <section id="dashboards" className="relative py-24 sm:py-32">
+    <section id="dashboards" className="relative overflow-x-clip py-24 sm:py-32">
       <div className="absolute left-1/2 top-0 -z-10 h-96 w-[50rem] -translate-x-1/2 rounded-full bg-eth/8 blur-[160px]" />
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <SectionHeading

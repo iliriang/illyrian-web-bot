@@ -31,7 +31,7 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="relative py-24 sm:py-32">
+    <section id="how-it-works" className="relative overflow-x-clip py-24 sm:py-32">
       <div className="absolute right-0 top-1/4 -z-10 h-96 w-96 rounded-full bg-base-blue/8 blur-[140px]" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading

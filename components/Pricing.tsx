@@ -54,7 +54,7 @@ const plans = [
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="relative py-24 sm:py-32">
+    <section id="pricing" className="relative overflow-x-clip py-24 sm:py-32">
       <div className="absolute right-0 top-1/3 -z-10 h-96 w-96 rounded-full bg-eth/8 blur-[140px]" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
